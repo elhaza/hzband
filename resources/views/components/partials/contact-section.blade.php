@@ -29,40 +29,55 @@
             </div>
 
             <!-- Formulario -->
-            <form action="{{ route('contact.store') }}" method="POST" class="bg-slate-950/60 p-6 rounded-2xl border border-white/10 space-y-4">
-                @csrf
-
+            <form id="contactForm" class="bg-slate-950/60 p-6 rounded-2xl border border-white/10 space-y-4">
                 <div>
                     <label for="name" class="block text-sm font-medium text-slate-300">Nombre</label>
                     <input type="text" id="name" name="name" required
-                           value="{{ old('name') }}"
                            class="mt-1 w-full rounded-lg bg-slate-900 border border-white/10 px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-                    @error('name') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-slate-300">Email</label>
                     <input type="email" id="email" name="email" required
-                           value="{{ old('email') }}"
                            class="mt-1 w-full rounded-lg bg-slate-900 border border-white/10 px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-                    @error('email') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label for="message" class="block text-sm font-medium text-slate-300">Mensaje</label>
                     <textarea id="message" name="message" rows="4" required
-                              class="mt-1 w-full rounded-lg bg-slate-900 border border-white/10 px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ old('message') }}</textarea>
-                    @error('message') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+                              class="mt-1 w-full rounded-lg bg-slate-900 border border-white/10 px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"></textarea>
                 </div>
 
                 <button type="submit" class="w-full py-3 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-400 transition">
                     Enviar mensaje
                 </button>
-
-                @if(session('status'))
-                    <p class="text-green-400 text-sm mt-3">{{ session('status') }}</p>
-                @endif
             </form>
+
+            <script>
+                document.getElementById('contactForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Obtener valores del formulario
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    // Construir el mensaje para WhatsApp
+                    const whatsappMessage = `Hola! Soy ${name}%0A%0A` +
+                                          `Email: ${email}%0A%0A` +
+                                          `Mensaje: ${message}`;
+
+                    // Número ofuscado (no visible directamente en el HTML)
+                    const parts = [0x662, 0x160, 0x3035];
+                    const phone = parts.map(p => p.toString()).join('');
+
+                    // Redireccionar a WhatsApp
+                    window.open(`https://wa.me/${phone}?text=${whatsappMessage}`, '_blank');
+
+                    // Limpiar formulario
+                    this.reset();
+                });
+            </script>
 
         </div>
     </div>
