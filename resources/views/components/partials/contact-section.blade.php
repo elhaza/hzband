@@ -67,9 +67,9 @@
                                           `Email: ${email}%0A%0A` +
                                           `Mensaje: ${message}`;
 
-                    // Número ofuscado (no visible directamente en el HTML)
-                    const parts = [0x662, 0x160, 0x3035];
-                    const phone = parts.map(p => p.toString()).join('');
+                    // Número ofuscado (invertido y luego revertido)
+                    const encoded = '5303061226';
+                    const phone = encoded.split('').reverse().join('');
 
                     // Redireccionar a WhatsApp
                     window.open(`https://wa.me/${phone}?text=${whatsappMessage}`, '_blank');
