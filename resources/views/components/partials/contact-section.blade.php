@@ -68,7 +68,7 @@
                                           `Mensaje: ${message}`;
 
                     // Número ofuscado (invertido y luego revertido)
-                    const encoded = '5303061226';
+                    const encoded = '53030612266225';
                     const phone = encoded.split('').reverse().join('');
 
                     // Redireccionar a WhatsApp
